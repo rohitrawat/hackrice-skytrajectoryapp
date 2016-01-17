@@ -1,0 +1,64 @@
+//
+// Name: Solar Eclipse 2009
+// License: Public Domain
+// Author: Matthew Gates
+// Description: Script to demonstrate a total solar eclipse which will happen
+//              in 2009 (location=Rangpur, Bangladesh).
+//
+	
+function blockText(textArray)
+{
+	var fontSize = 20;
+	var lineSep = fontSize * 1.5;
+	y = 50;
+	ids = new Array();
+	for(i=0; i<textArray.length; i++)
+	{
+		ids[i] = LabelMgr.labelScreen(textArray[i], 30, y, false, fontSize, "#0044ff");
+		y += lineSep;
+	}
+
+	for(i=0; i<ids.length; i++)
+	{
+		LabelMgr.setLabelShow(ids[i], true);
+		core.wait(0.15);
+	}
+	return ids;
+}
+
+function clearLabels(ids)
+{
+	for(i=0; i<ids.length; i++)
+	{
+		LabelMgr.setLabelShow(ids[i], false);
+		core.wait(0.15);
+	}
+	core.wait(1);
+	for(i=0; i<ids.length; i++)
+	{
+		LabelMgr.deleteLabel(ids[i]);
+	}
+}
+
+// While we're setting up, change the time to go nice and slow
+LabelMgr.deleteAllLabels();
+core.setTimeRate(0); //stops time
+
+// Setup display mode
+core.clear("natural");
+
+// We'll turn these off as the sun comes up, but for pre-dawn we want to show them
+ConstellationMgr.setFlagLines(true);
+ConstellationMgr.setFlagLabels(true);
+SolarSystem.setFlagPlanets(true);
+
+// OK, move to the proper location and date for the eclipse
+//core.setDate("2009:07:21T22:05:00");
+
+// Point at a bit of sky approx above the Eastern horizon
+core.setObserverLocation(LATTITUDE, LONGITUDE, 20, 0, "NAME");
+StelMovementMgr.zoomTo(180, 0);
+//core.wait(3);
+
+LandscapeMgr.setFlagAtmosphere(false);
+
